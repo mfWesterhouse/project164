@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Paint Ball</title>
+
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+        <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+        <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+        <script src="./js/shoot.js"></script>
+        <script src="./js/player.js"></script>
+        <script src="./js/objects.js"></script>
+    </head>
+    <body>
+        <a-scene id="scene" inspector-plugin-recast>
+            <a-sky color="#CCE6FF"></a-sky>
+
+            <a-assets>
+                <a-asset-item id="shooter" src="./assets/shooter/gun.gltf"></a-asset-item>
+                <a-asset-item id="collider" src="./assets/mesh/navmesh.gltf"></a-asset-item>
+                <audio id="splat" src="./sounds/splat.mp3"></audio>
+                <audio id="footsteps" src="./sounds/footsteps.mp3"></audio>
+            </a-assets>
+
+            <a-entity id="enviroment" enviroment="preset: egypt; skyType: gradient; lighting: point"></a-entity>
+            
+            <a-entity id="sound1" sound="src: #splat; poolSize:2; autoplay: false; volume: 1;loop:false"></a-entity>
+            <a-entity id="sound2" ></a-entity>
+
+            <a-entity light="type: ambient; color: white; intensity:0.5"></a-entity>   
+            <a-entity light="type: directional; color: #EEE; intensity: 1" position="-1 1 0"></a-entity>
+
+            <a-entity id="camera-rig" movement-controls="speed: 0.2; constrainToNavMesh: true" position="0 1 2">
+                <a-entity id="camera" camera position="0 1.6 0" look-controls="pointerLockEnabled: false">
+                  <a-entity id="weapon" gltf-model="#shooter" position="0 -4.4 3" rotation="0 180 0" scale="0.35 1 1"
+                    player-movement>
+                  </a-entity>
+                  <a-cursor></a-cursor>
+                </a-entity>
+              </a-entity>
+
+            <a-entity paint-ball></a-entity>
+            <a-entity wire-fence boxes></a-entity>  
+  
+            <a-plane id="ground" repeat="5 5" position="0 1 0" rotation="-90 0 0" height="200" width="200" color="#004D00"
+            static-body visible="true"></a-plane>
+
+            <a-entity id="navigation-mesh" gltf-model="#collider" visible="false" nav-mesh>
+            </a-entity>
+
+        </a-scene>
+    </body>
+</html>
